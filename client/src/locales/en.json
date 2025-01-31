@@ -1,0 +1,14 @@
+{
+    "login": {
+        "login-action": "Login"
+    },
+    "home": {
+        "welcome": "Welcome {user}",
+        "counter-label": "Current count: {count}"
+    },
+    "login-action": "Login",
+    "counter": {
+        "increment": "Increment",
+        "main-text": "This is a counter!"
+    }
+}

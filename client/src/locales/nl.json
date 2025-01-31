@@ -1,0 +1,14 @@
+{
+    "login": {
+        "login-action": "Inloggen"
+    },
+    "home": {
+        "welcome": "Welkom {user}",
+        "counter-label": "Huidige tellerstand: {count}"
+    },
+    "login-action": "Inloggen",
+    "counter": {
+        "increment": "Verhogen",
+        "main-text": "Dit is een teller!"
+    }
+}

@@ -1,0 +1,24 @@
+@import "./base.css";
+
+.slide-fade-enter-active {
+    transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+.slide-x-enter-active,
+.slide-x-leave-active {
+    transition: 0.15s ease-out;
+}
+
+.slide-x-enter-from,
+.slide-x-leave-to {
+    opacity: 0;
+    transform: translateX(-100%);
+}
