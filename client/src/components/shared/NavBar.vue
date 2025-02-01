@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { useSessionContext } from "supertokens-auth-react/recipe/session";
+
 import LanguagePicker from "@/components/shared/LanguagePicker.vue";
 import { logout } from "@/helper/auth.ts";
+import { useAuthStore } from "@/stores/authStore.ts";
+const auth = useAuthStore();
 </script>
 
 <template>
@@ -10,7 +14,7 @@ import { logout } from "@/helper/auth.ts";
         <v-btn :to="{ name: 'counter' }"> Counter </v-btn>
 
         <LanguagePicker></LanguagePicker>
-        <v-btn @click="logout()">Logout</v-btn>
+        <v-btn v-if="auth.isLoggedIn" @click="logout()">Logout</v-btn>
     </v-bottom-navigation>
 
     <nav></nav>
