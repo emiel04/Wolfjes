@@ -4,6 +4,7 @@ import CounterView from "@/views/CounterView.vue";
 import HomeView from "@/views/HomeView.vue";
 import AuthView from "@/views/auth/AuthView.vue";
 import PublicLayout from "@/views/layouts/PublicLayout.vue";
+import { secureGuard } from "@/router/secureGuard.ts";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,7 @@ const router = createRouter({
                 {
                     path: "counter",
                     name: "counter",
+                    beforeEnter: secureGuard,
                     component: CounterView,
                 },
             ],
