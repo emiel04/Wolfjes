@@ -3,7 +3,6 @@ import { useLocale } from "vuetify";
 import { i18n } from "@/i18n.ts";
 import { computed, onMounted, ref } from "vue";
 import { type TLanguage, Language } from "@/helper/language.ts";
-import {} from "@/helper/language.ts";
 export const useLanguageStore = defineStore("language", () => {
     const language = ref<TLanguage>(
         Language.is(localStorage.getItem(Language.KEY))
