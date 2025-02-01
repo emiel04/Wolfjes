@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LanguagePicker from "@/components/shared/LanguagePicker.vue";
+import { logout } from "@/helper/auth.ts";
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import LanguagePicker from "@/components/shared/LanguagePicker.vue";
         <v-btn :to="{ name: 'counter' }"> Counter </v-btn>
 
         <LanguagePicker></LanguagePicker>
+        <v-btn @click="logout()">Logout</v-btn>
     </v-bottom-navigation>
 
     <nav></nav>
@@ -16,8 +18,6 @@ import LanguagePicker from "@/components/shared/LanguagePicker.vue";
 </template>
 
 <style scoped>
-nav {
-}
 a {
     display: inline-block;
     margin: 0 1rem;
