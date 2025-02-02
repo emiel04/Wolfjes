@@ -49,16 +49,6 @@ onMounted(async () => {
         const sessionExists = await Session.doesSessionExist();
 
         if (sessionExists) {
-            const userJwt = await Session.getAccessToken();
-            if (userJwt) {
-                socketStore.connect(config.apiDomain, userJwt);
-            }
-
-            const redirectUrl = sessionStorage.getItem("redirectAfterLogin");
-            if (redirectUrl) {
-                await router.push(redirectUrl);
-                sessionStorage.removeItem("redirectAfterLogin");
-            }
         } else {
             await initGuestSession();
         }

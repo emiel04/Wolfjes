@@ -1,17 +1,31 @@
 {
-    "login": {
-        "login-action": "Inloggen"
-    },
-    "home": {
-        "welcome": "Welkom {user}",
-        "counter-label": "Huidige tellerstand: {count}"
-    },
-    "login-action": "Inloggen",
-    "counter": {
-        "increment": "Verhogen",
-        "main-text": "Dit is een teller!"
-    },
+  "login": {
+    "login-action": "Inloggen"
+  },
+  "home": {
+    "welcome": "Welkom {user}",
+    "counter-label": "Aantal: {count}"
+  },
+  "login-action": "Inloggen",
+  "counter": {
+    "increment": "Verhoog",
+    "main-text": "Dit is een teller!"
+  },
   "start": {
-    "start-btn": "start.start-btn"
+    "title": "Speel het spel weerwolven!",
+    "join-btn": "Meedoen met spel",
+    "create-btn": "Nieuw spel maken",
+    "code-textfield": "Code invoeren",
+    "code-placeholder": "Typ je spelcode hier",
+    "or": "of",
+    "scan-code": "Spelcode scannen"
+  },
+  "divider": {
+    "text": "of"
+  },
+  "game": {
+    "create": {
+      "title": "Maak je eigen spel!"
+    }
   }
 }

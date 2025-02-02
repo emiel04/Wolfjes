@@ -5,6 +5,9 @@ import HomeView from "@/views/HomeView.vue";
 import AuthView from "@/views/auth/AuthView.vue";
 import PublicLayout from "@/views/layouts/PublicLayout.vue";
 import { secureGuard } from "@/router/secureGuard.ts";
+import { useAuthStore } from "@/stores/authStore.ts";
+import SecureLayout from "@/views/layouts/SecureLayout.vue";
+import { checkIfRedirect } from "@/router/checkIfRedirect.ts";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,12 +20,24 @@ const router = createRouter({
                     path: "",
                     name: "home",
                     component: HomeView,
+                    beforeEnter: checkIfRedirect,
                 },
                 {
                     path: "counter",
                     name: "counter",
                     beforeEnter: secureGuard,
                     component: CounterView,
+                },
+            ],
+        },
+        {
+            path: "/",
+            component: SecureLayout,
+            children: [
+                {
+                    path: "/create-game",
+                    name: "create-game",
+                    component: () => import("@/views/secure/CreateGame.vue"),
                 },
             ],
         },
@@ -50,6 +65,12 @@ const router = createRouter({
         // },
         // { path: '/:pathMatch(.*)', component: NotFoundComponent },
     ],
+});
+
+router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore();
+    await authStore.checkSession();
+    next();
 });
 
 export default router;

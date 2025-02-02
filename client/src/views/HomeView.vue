@@ -9,14 +9,14 @@ const count = useCounterStore();
 
 <template>
     <div class="wrapper">
-        <h2>{{ t("home.welcome", { user: "Emiel" }) }}</h2>
-        <v-btn @click="count.increment()"
-            >{{ t("login.login-action") }} {{ count.count }}</v-btn
-        >
+        <!--        <h2>{{ t("home.welcome", { user: "Emiel" }) }}</h2>-->
+        <!--        <v-btn @click="count.increment()"-->
+        <!--            >{{ t("login.login-action") }} {{ count.count }}</v-btn-->
+        <!--        >-->
         <HealthCheck />
-        <main class="main">
+        <div class="main">
             <StartComponent></StartComponent>
-        </main>
+        </div>
     </div>
 </template>
 <style scoped>
@@ -34,5 +34,6 @@ const count = useCounterStore();
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 </style>

@@ -9,6 +9,7 @@ import { i18n } from "@/i18n.ts";
 import "vuetify/styles";
 import vuetify from "@/vuetify.ts";
 import { initSupertokens } from "@/supertokens.ts";
+import "@mdi/font/css/materialdesignicons.css";
 
 const apiUrl = import.meta.env.VITE_API_DOMAIN;
 const appName = import.meta.env.VITE_APP_NAME;

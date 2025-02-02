@@ -12,6 +12,17 @@
         "main-text": "This is a counter!"
     },
   "start": {
-    "start-btn": "start.start-btn"
+    "title": "Play werewolves!",
+    "join-btn": "Join game",
+    "create-btn": "Create a new game",
+    "code-textfield": "Use a code",
+    "code-placeholder": "Type your game code here",
+    "or": "or",
+    "scan-code": "Scan game code"
+  },
+  "game": {
+    "create": {
+      "title": "Create your game!"
+    }
   }
 }
