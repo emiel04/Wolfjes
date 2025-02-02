@@ -47,8 +47,9 @@ const initGuestSession = async () => {
 onMounted(async () => {
     try {
         const sessionExists = await Session.doesSessionExist();
-
-        if (sessionExists) {
+        const accessToken = await Session.getAccessToken();
+        if (sessionExists && accessToken) {
+            socketStore.connect(config.apiDomain, accessToken, false);
         } else {
             await initGuestSession();
         }
