@@ -13,6 +13,7 @@ import { Toaster } from "vue-sonner";
 app {
     height: 100dvh;
     width: 100dvw;
+    align-items: stretch;
 }
 
 nav {

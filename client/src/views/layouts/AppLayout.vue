@@ -1,14 +1,10 @@
 <template>
-    <div>
-        <NavBar />
-        <div>
-            <router-view v-slot="{ Component }">
-                <transition name="slide-x" mode="out-in">
-                    <component :is="Component" />
-                </transition>
-            </router-view>
-        </div>
-    </div>
+    <router-view v-slot="{ Component }">
+        <transition name="slide-x" mode="out-in">
+            <component :is="Component" />
+        </transition>
+    </router-view>
+    <NavBar />
 </template>
 
 <script setup lang="ts">

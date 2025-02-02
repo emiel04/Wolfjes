@@ -10,5 +10,8 @@
     "counter": {
         "increment": "Increment",
         "main-text": "This is a counter!"
-    }
+    },
+  "start": {
+    "start-btn": "start.start-btn"
+  }
 }

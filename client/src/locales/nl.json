@@ -10,5 +10,8 @@
     "counter": {
         "increment": "Verhogen",
         "main-text": "Dit is een teller!"
-    }
+    },
+  "start": {
+    "start-btn": "start.start-btn"
+  }
 }

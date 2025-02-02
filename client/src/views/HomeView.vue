@@ -8,17 +8,31 @@ const count = useCounterStore();
 </script>
 
 <template>
-    <main>
+    <div class="wrapper">
         <h2>{{ t("home.welcome", { user: "Emiel" }) }}</h2>
         <v-btn @click="count.increment()"
             >{{ t("login.login-action") }} {{ count.count }}</v-btn
         >
-        <StartComponent></StartComponent>
         <HealthCheck />
-    </main>
+        <main class="main">
+            <StartComponent></StartComponent>
+        </main>
+    </div>
 </template>
 <style scoped>
 .status-message {
     max-width: 20rem;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.main {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
