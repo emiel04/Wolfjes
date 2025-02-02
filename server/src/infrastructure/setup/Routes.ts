@@ -4,15 +4,27 @@ import { SignUpEndpoint } from "@infrastructure/setup/endpoints/SignUpEndpoint";
 import { verifySession } from "supertokens-node/lib/build/recipe/session/framework/express";
 import { GuestEndpoint } from "@infrastructure/setup/endpoints/auth/GuestEndpoint";
 import { CreateGameEndpoint } from "@infrastructure/setup/endpoints/CreateGameEndpoint";
-import { ApplicationError } from "@domain/errors/ApplicationError";
 import UserMetadata from "supertokens-node/recipe/usermetadata";
 import { BadRequestError } from "@infrastructure/errors/HttpErrors";
+import { AuthenticatedRequest } from "@infrastructure/types/AuthenticatedRequest";
 
 function asyncHandler(
     fn: (req: Request, res: Response, next: NextFunction) => Promise<void>
 ) {
     return (req: Request, res: Response, next: NextFunction) => {
         fn(req, res, next).catch(next);
+    };
+}
+
+function asyncAuthHandler(
+    fn: (
+        req: AuthenticatedRequest,
+        res: Response,
+        next: NextFunction
+    ) => Promise<void>
+) {
+    return (req: Request, res: Response, next: NextFunction) => {
+        fn(req as AuthenticatedRequest, res, next).catch(next);
     };
 }
 
@@ -52,7 +64,7 @@ export function registerRoutes(app: Express) {
     app.post(
         "/games",
         verifySession(),
-        asyncHandler(async (req: Request, res: Response) => {
+        asyncAuthHandler(async (req: AuthenticatedRequest, res: Response) => {
             const endpoint = new CreateGameEndpoint();
             await endpoint.handle(req, res);
         })
@@ -61,8 +73,7 @@ export function registerRoutes(app: Express) {
     app.put(
         "/profile/name",
         verifySession(),
-        asyncHandler(async (req: Request, res: Response) => {
-            // @ts-ignore
+        asyncAuthHandler(async (req: AuthenticatedRequest, res: Response) => {
             const { session } = req;
             const userId = session.getUserId();
 
@@ -86,8 +97,7 @@ export function registerRoutes(app: Express) {
     app.get(
         "/profile",
         verifySession(),
-        asyncHandler(async (req: Request, res: Response) => {
-            // @ts-ignore
+        asyncAuthHandler(async (req: AuthenticatedRequest, res: Response) => {
             const { session } = req;
             const userId = session.getUserId();
             const { metadata } = await UserMetadata.getUserMetadata(userId);

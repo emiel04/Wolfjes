@@ -4,10 +4,11 @@ import { Guid } from "guid-typescript";
 import logger from "@infrastructure/setup/helper/Logger";
 import { UnauthenticatedError } from "@domain/errors/UnauthenticatedError";
 import Session from "supertokens-node/recipe/session";
-import { ApplicationError } from "@domain/errors/ApplicationError";
-import { UnauthorizedError } from "@domain/errors/UnauthorizedError";
+import { SocketManagerImpl } from "@infrastructure/managers/SocketManagerImpl";
 
 export class ConnectionEndpoint implements WSEndpoint {
+    private socketManager = SocketManagerImpl.getInstance();
+
     async handle(socket: Socket): Promise<void> {
         logger.info(
             `New websocket connection from ${socket.handshake.address} with id ${socket.id}`
@@ -29,6 +30,8 @@ export class ConnectionEndpoint implements WSEndpoint {
             const session =
                 await Session.getSessionWithoutRequestResponse(token);
             const userId = session.getUserId();
+            this.socketManager.addSocket(userId, socket);
+
             socket.send("alert", "You are now logged in");
         } catch (_) {
             throw new UnauthenticatedError();
@@ -40,6 +43,7 @@ export class ConnectionEndpoint implements WSEndpoint {
 
     private handleAnonymous(socket: Socket) {
         const id = `anon.${Guid.create()}`;
+        this.socketManager.addSocket(id, socket);
 
         // Now there is an anonymous things,
         socket.emit(
