@@ -3,6 +3,12 @@ import config from "@helper/config";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
 import Session from "supertokens-node/recipe/session";
 import ThirdParty from "supertokens-node/recipe/thirdparty";
+import { thirdPartyLoginConfiguration } from "@infrastructure/setup/supertokens/ThirdPartyLoginConfiguration";
+import {
+    emailPasswordOptions,
+    emailVerificationRecipeOptions,
+} from "@infrastructure/setup/supertokens/SmtpSettings";
+import EmailVerification from "supertokens-node/recipe/emailverification";
 
 export const SuperTokensConfig: TypeInput = {
     framework: "express",
@@ -15,28 +21,11 @@ export const SuperTokensConfig: TypeInput = {
         websiteDomain: config.websiteDomain,
     },
     recipeList: [
-        EmailPassword.init(),
-        ThirdParty.init({
-            signInAndUpFeature: {
-                providers: [
-                    {
-                        config: {
-                            thirdPartyId: "google",
-                            clients: [
-                                {
-                                    clientId:
-                                        config.auth.supertokens.providers.google
-                                            .clientId,
-                                    clientSecret:
-                                        config.auth.supertokens.providers.google
-                                            .clientSecret,
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
+        EmailPassword.init({ ...emailPasswordOptions }),
+        EmailVerification.init({ ...emailVerificationRecipeOptions }),
+        ThirdParty.init(thirdPartyLoginConfiguration),
+        Session.init({
+            exposeAccessTokenToFrontendInCookieBasedAuth: true,
         }),
-        Session.init(),
     ],
 };

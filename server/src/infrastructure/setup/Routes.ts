@@ -2,6 +2,7 @@ import { HealthEndpoint } from "./endpoints/HealthEndpoint";
 import type { Express, NextFunction, Request, Response } from "express";
 import { SignUpEndpoint } from "@infrastructure/setup/endpoints/SignUpEndpoint";
 import { verifySession } from "supertokens-node/lib/build/recipe/session/framework/express";
+import { GuestEndpoint } from "@infrastructure/setup/endpoints/auth/GuestEndpoint";
 
 function asyncHandler(
     fn: (req: Request, res: Response, next: NextFunction) => Promise<void>
@@ -32,6 +33,14 @@ export function registerRoutes(app: Express) {
         "/auth/signup",
         asyncHandler(async (req: Request, res: Response) => {
             const endpoint = new SignUpEndpoint();
+            await endpoint.handle(req, res);
+        })
+    );
+
+    app.get(
+        "/auth/guest",
+        asyncHandler(async (req: Request, res: Response) => {
+            const endpoint = new GuestEndpoint();
             await endpoint.handle(req, res);
         })
     );

@@ -18,10 +18,12 @@ export class WebSocketServer {
 
     constructor(httpServer: HttpServer) {
         logger.info("Creating websocket server");
+        logger.info(`Allowed origins: ${config.allowedOrigins}`);
         const options: Partial<ServerOptions> = {
             cors: {
-                origin: "*", // TODO make safe
+                origin: config.allowedOrigins,
                 methods: ["GET", "POST"],
+                credentials: true,
             },
         };
 
@@ -39,6 +41,7 @@ export class WebSocketServer {
     initialize() {
         logger.info("Initializing websocket server");
         this.registerSocketMessages();
+        this.startTimedAlert();
     }
 
     getIO(): SocketIOServer {
@@ -63,6 +66,7 @@ export class WebSocketServer {
                 if (e instanceof ApplicationError) {
                     this.handleError(socket, e);
                 } else {
+                    logger.error(e);
                     socket.disconnect(); // Unknown error, so disconnect for security reasons.
                 }
             }
@@ -86,5 +90,30 @@ export class WebSocketServer {
     private disconnectSocket(socket: Socket) {
         logger.info(`Disconnecting socket ${socket.id}`);
         socket.disconnect();
+    }
+
+    private startTimedAlert() {
+        // TODO remove
+        const randomSentences = [
+            "Hello, world!",
+            "How are you doing today?",
+            "Have a great day ahead!",
+            "Stay awesome!",
+            "Keep pushing forward!",
+            "Just checking in!",
+            "You are doing great!",
+            "Believe in yourself!",
+            "Never give up!",
+            "Keep learning and growing!",
+        ];
+
+        setInterval(() => {
+            const randomSentence =
+                randomSentences[
+                    Math.floor(Math.random() * randomSentences.length)
+                ];
+            this.io.emit("alert", randomSentence);
+            logger.info(`Sent alert: ${randomSentence}`);
+        }, 5000); // Send every 5 seconds
     }
 }

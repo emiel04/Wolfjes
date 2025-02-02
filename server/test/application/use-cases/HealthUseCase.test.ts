@@ -1,12 +1,12 @@
 // test/healthUseCase.test.ts
 
 import { describe, test } from "@jest/globals";
-import assert from "node:assert";
+import * as assert from "node:assert";
+import { OutputPort } from "../../../src/application/shared/OutputPort";
 import {
     HealthOutput,
     HealthUseCase,
-} from "@application/use-cases/HealthUseCase";
-import { OutputPort } from "@application/shared/OutputPort";
+} from "../../../src/application/use-cases/HealthUseCase";
 
 describe("HealthUseCase", () => {
     let mockOutputPort: OutputPort<HealthOutput>;
