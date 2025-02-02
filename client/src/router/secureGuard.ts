@@ -6,7 +6,7 @@ export async function secureGuard(to: any, from: any, next: any) {
     if (sessionExists) {
         next();
     } else {
-        sessionStorage.setItem("redirectAfterLogin", to.fullPath);
+        sessionStorage.setItem("redirectAfterLogin", to.fullPath); // TODO better way of redirecting after login.
         next("/auth");
     }
 }

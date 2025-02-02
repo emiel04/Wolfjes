@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
-
 import LanguagePicker from "@/components/shared/LanguagePicker.vue";
 import { logout } from "@/helper/auth.ts";
 import { useAuthStore } from "@/stores/authStore.ts";
