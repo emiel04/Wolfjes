@@ -9,6 +9,7 @@ import {
     emailVerificationRecipeOptions,
 } from "@infrastructure/setup/supertokens/SmtpSettings";
 import EmailVerification from "supertokens-node/recipe/emailverification";
+import UserMetadata from "supertokens-node/recipe/usermetadata";
 
 export const SuperTokensConfig: TypeInput = {
     framework: "express",
@@ -27,5 +28,6 @@ export const SuperTokensConfig: TypeInput = {
         Session.init({
             exposeAccessTokenToFrontendInCookieBasedAuth: true,
         }),
+        UserMetadata.init(),
     ],
 };

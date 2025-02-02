@@ -13,4 +13,8 @@ export class InMemoryLobbyRepository implements LobbyRepository {
     async get(lobbyCode: LobbyCode): Promise<Lobby | undefined> {
         return this.lobbies.get(lobbyCode.value);
     }
+
+    async getAll(): Promise<Lobby[]> {
+        return [...this.lobbies.values()];
+    }
 }

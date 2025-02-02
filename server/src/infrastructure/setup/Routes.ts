@@ -3,6 +3,10 @@ import type { Express, NextFunction, Request, Response } from "express";
 import { SignUpEndpoint } from "@infrastructure/setup/endpoints/SignUpEndpoint";
 import { verifySession } from "supertokens-node/lib/build/recipe/session/framework/express";
 import { GuestEndpoint } from "@infrastructure/setup/endpoints/auth/GuestEndpoint";
+import { CreateGameEndpoint } from "@infrastructure/setup/endpoints/CreateGameEndpoint";
+import { ApplicationError } from "@domain/errors/ApplicationError";
+import UserMetadata from "supertokens-node/recipe/usermetadata";
+import { BadRequestError } from "@infrastructure/errors/HttpErrors";
 
 function asyncHandler(
     fn: (req: Request, res: Response, next: NextFunction) => Promise<void>
@@ -47,9 +51,48 @@ export function registerRoutes(app: Express) {
 
     app.post(
         "/games",
+        verifySession(),
         asyncHandler(async (req: Request, res: Response) => {
             const endpoint = new CreateGameEndpoint();
             await endpoint.handle(req, res);
+        })
+    );
+
+    app.put(
+        "/profile/name",
+        verifySession(),
+        asyncHandler(async (req: Request, res: Response) => {
+            // @ts-ignore
+            const { session } = req;
+            const userId = session.getUserId();
+
+            if (!req.body) {
+                throw new BadRequestError("No body");
+            }
+
+            const name = req.body.name;
+            if (!name) {
+                throw new BadRequestError("No name");
+            }
+
+            await UserMetadata.updateUserMetadata(userId, {
+                profile: { name: name },
+            });
+
+            res.json({ message: "successfully updated user metadata" });
+        })
+    );
+
+    app.get(
+        "/profile",
+        verifySession(),
+        asyncHandler(async (req: Request, res: Response) => {
+            // @ts-ignore
+            const { session } = req;
+            const userId = session.getUserId();
+            const { metadata } = await UserMetadata.getUserMetadata(userId);
+
+            res.json(metadata);
         })
     );
 }

@@ -2,10 +2,12 @@ import { GameSettings } from "@domain/value-objects/GameSettings";
 import { DomainError } from "@domain/errors/DomainError";
 import { Player } from "@domain/entities/Player";
 import { LobbyCode } from "@domain/value-objects/LobbyCode";
+import { Guid } from "guid-typescript";
 
 export class Lobby {
     constructor(
         private readonly _lobbyCode: LobbyCode,
+        private readonly _creator: Player,
         private _players: Player[] = [],
         private _status: "day" | "night" | "pre" = "pre",
         private _settings: GameSettings
@@ -13,9 +15,10 @@ export class Lobby {
 
     static create(
         gameCode: LobbyCode,
+        creator: Player,
         gameSettings: GameSettings = GameSettings.createDefault()
     ) {
-        const lobby = new Lobby(gameCode, [], "pre", gameSettings);
+        const lobby = new Lobby(gameCode, creator, [], "pre", gameSettings);
         lobby.validateState();
         return lobby;
     }
@@ -24,6 +27,7 @@ export class Lobby {
         this.validateGameSettings();
         this.validateStatus();
         this.validateGameCode();
+        this.validateCreator();
     }
 
     private validateGameSettings() {
@@ -36,7 +40,7 @@ export class Lobby {
     }
 
     private validateGameCode() {
-        this._lobbyCode.isValidState();
+        this._lobbyCode.validateState();
     }
 
     get lobbyCode(): LobbyCode {
@@ -53,5 +57,12 @@ export class Lobby {
 
     get settings(): GameSettings {
         return this._settings;
+    }
+
+    private validateCreator() {
+        if (!this._creator.id || !Guid.isGuid(this._creator.id))
+            throw new DomainError("Not a valid GUID for creator");
+        if (!this._creator.name || this._creator.name.length < 1)
+            throw new DomainError("Creator name must be at least 1 character");
     }
 }
