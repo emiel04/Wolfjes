@@ -44,4 +44,12 @@ export function registerRoutes(app: Express) {
             await endpoint.handle(req, res);
         })
     );
+
+    app.post(
+        "/games",
+        asyncHandler(async (req: Request, res: Response) => {
+            const endpoint = new CreateGameEndpoint();
+            await endpoint.handle(req, res);
+        })
+    );
 }
